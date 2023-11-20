@@ -1,4 +1,6 @@
-﻿using Tutorial.Entitys;
+﻿using Microsoft.EntityFrameworkCore;
+using Tutorial.Entitys;
+using Tutorial.Maps;
 
 namespace Tutorial.Services;
 
@@ -6,44 +8,35 @@ public class SuperPowerServices
 {
     private readonly DataContext _context = new DataContext();
 
-    public IEnumerable<SuperPower> SuperPowerGet()
+    public async Task<IEnumerable<SuperPower>> SuperPowerGet()
     {
-        return _context.SuperPowers.ToList();
+        return await _context.SuperPowers.ToListAsync();
     }
 
-    public SuperPower SuperPowerPost(PostSuperPower_DTO postSuperPowerDto)
+    public async Task<SuperPower> SuperPowerPost(PostSuperPower_DTO postSuperPowerDto)
     {
-        SuperPower superPower = new SuperPower();
-        superPower.FightingSkill = postSuperPowerDto.FightingSkill;
-        superPower.SuperPowerName = postSuperPowerDto.SuperPowerName;
-        superPower.SuperHeroId = postSuperPowerDto.SuperHeroId;
-        
+        SuperPower superPower = SuperPowerMap.PostSuperPowerMap(postSuperPowerDto);
         _context.SuperPowers.Add(superPower);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return superPower;
     }
 
-    public SuperPower SuperPowerPut(int id, PutSuperPower_DTO putSuperPowerDto)
+    public async Task<SuperPower> SuperPowerPut(int id, PutSuperPower_DTO putSuperPowerDto)
     {
-        SuperPower superPower = new SuperPower();
-        superPower.SuperPowerName = putSuperPowerDto.SuperPowerName;
-        superPower.FightingSkill = putSuperPowerDto.FightingSkill;
-        superPower.SuperHeroId = putSuperPowerDto.SuperHeroId;
-
-        superPower.SuperPowerId = id;
+        SuperPower superPower = SuperPowerMap.PutSuperPowerMap(id, putSuperPowerDto);
         _context.SuperPowers.Update(superPower);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return superPower;
 
     }
 
-    public SuperPower SuperPowerDelete(int id)
+    public async Task<SuperPower> SuperPowerDelete(int id)
     {
         SuperPower superPower = new SuperPower();
         superPower.SuperPowerId = id;
 
         _context.SuperPowers.Remove(superPower);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return superPower;
     }
     

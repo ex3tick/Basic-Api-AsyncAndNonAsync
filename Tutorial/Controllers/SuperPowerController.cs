@@ -10,28 +10,28 @@ public class SuperPowerController : ControllerBase
     private readonly SuperPowerServices _services = new SuperPowerServices();
 
     [HttpGet]
-    public IActionResult GetSuperPower()
+    public async Task<IActionResult> GetSuperPower()
     {
-        return Ok(_services.SuperPowerGet());
+        return Ok(await _services.SuperPowerGet());
     }
 
     [HttpPost]
-    public IActionResult PostSuperPower(PostSuperPower_DTO postSuperPowerDto)
+    public async Task<IActionResult> PostSuperPower(PostSuperPower_DTO postSuperPowerDto)
     {
-        return Ok(_services.SuperPowerPost(postSuperPowerDto));
+        return Ok(await _services.SuperPowerPost(postSuperPowerDto));
         
     }
 
     [HttpPut]
-    public IActionResult PutSuperPower(int id, PutSuperPower_DTO putSuperPowerDto)
+    public async Task<IActionResult> PutSuperPower(int id, PutSuperPower_DTO putSuperPowerDto)
     {
-        return Ok(_services.SuperPowerPut(id, putSuperPowerDto));
+        return Ok(await _services.SuperPowerPut(id, putSuperPowerDto));
     }
 
     [HttpDelete]
-    public IActionResult DeleteSuperPower(int id)
+    public async Task<IActionResult> DeleteSuperPower(int id)
     {
-        return Ok(_services.SuperPowerDelete(id));
+        return Ok(await _services.SuperPowerDelete(id));
     }
     
     

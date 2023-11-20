@@ -12,27 +12,27 @@ public class SuperHeroController : ControllerBase
     private readonly SuperHeroServices _services = new SuperHeroServices();
 
     [HttpGet]
-    public IActionResult GetSuperHero()
+    public async Task<IActionResult> GetSuperHero()
     {
-        return Ok(_services.SuerpHeroGet());
+        return Ok(await _services.SuerpHeroGet());
     }
 
     [HttpPost]
-    public IActionResult PostSuperHero(PostSuperHero_DTO postSuperHeroDto)
+    public async Task<IActionResult> PostSuperHero(PostSuperHero_DTO postSuperHeroDto)
     {
-        return Ok(_services.SuperHeroAdd(postSuperHeroDto));
+        return Ok(await _services.SuperHeroAdd(postSuperHeroDto));
     }
 
     [HttpPut]
-    public IActionResult PutSuperHero(int id, PutSuperHero_DTO putSuperHeroDto)
+    public async Task<IActionResult> PutSuperHero(int id, PutSuperHero_DTO putSuperHeroDto)
     {
-        return Ok(_services.SuperHeroPut(id, putSuperHeroDto));
+        return Ok(await _services.SuperHeroPut(id, putSuperHeroDto));
     }
 
     [HttpDelete]
-    public IActionResult DeleteSuperHero(int id)
+    public async Task<IActionResult> DeleteSuperHero(int id)
     {
-        return Ok(_services.SuperHeroDelete(id));
+        return Ok(await _services.SuperHeroDelete(id));
 
     }
 

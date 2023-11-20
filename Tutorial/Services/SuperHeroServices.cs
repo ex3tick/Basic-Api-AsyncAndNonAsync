@@ -1,4 +1,6 @@
-﻿using Tutorial.Entitys;
+﻿using Microsoft.EntityFrameworkCore;
+using Tutorial.Entitys;
+using Tutorial.Maps;
 
 namespace Tutorial.Services;
 
@@ -6,41 +8,33 @@ public class SuperHeroServices
 {
     private readonly DataContext _context = new DataContext();
 
-    public IEnumerable<SuperHero> SuerpHeroGet()
+    public async Task<IEnumerable<SuperHero>> SuerpHeroGet()
     {
-        return _context.SuperHeroes.ToList();
+        return await _context.SuperHeroes.ToListAsync();
     }
 
-    public SuperHero SuperHeroAdd(PostSuperHero_DTO postSuperHeroDto)
+    public async Task<SuperHero> SuperHeroAdd(PostSuperHero_DTO postSuperHeroDto)
     {
-        SuperHero superHero = new SuperHero();
-        superHero.SuperHeroAge = postSuperHeroDto.SuperHeroAge;
-        superHero.SuperHeroName = postSuperHeroDto.SuperHeroName;
-
+        SuperHero superHero = SuperHeroMap.PostSuperHeroMap(postSuperHeroDto);
         _context.SuperHeroes.Add(superHero);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return superHero;
     }
-
-    public SuperHero SuperHeroPut(int id, PutSuperHero_DTO putSuperHeroDto)
+    public async Task<SuperHero> SuperHeroPut(int id, PutSuperHero_DTO putSuperHeroDto)
     {
-        SuperHero superHero = new SuperHero();
-        superHero.SuperHeroAge = putSuperHeroDto.SuperHeroAge;
-        superHero.SuperHeroName = putSuperHeroDto.SuperHeroName;
-
-        superHero.SuperHeroId = id;
+        SuperHero superHero = SuperHeroMap.PutSuperHeroMap(id, putSuperHeroDto);
         _context.SuperHeroes.Update(superHero);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return superHero;
     }
 
-    public SuperHero SuperHeroDelete(int id)
+    public async Task<SuperHero> SuperHeroDelete(int id)
     {
         SuperHero superHero = new SuperHero();
         superHero.SuperHeroId = id;
 
         _context.SuperHeroes.Remove(superHero);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return superHero;
     }
     
